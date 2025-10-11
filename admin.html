@@ -50,8 +50,8 @@
   <table id="admissionTable">
     <thead>
       <tr>
-        <th>Child Name</th><th>DOB</th><th>Gender</th><th>Parent Name</th><th>Email</th>
-        <th>Phone</th><th>Address</th><th>Message</th><th>Date</th>
+        <th>Child Name</th><th>DOB</th><th>Gender</th><th>Parent Name</th>
+        <th>Email</th><th>Phone</th><th>Address</th><th>Message</th><th>Date</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -88,13 +88,13 @@
       admissions.forEach(a => {
         admissionBody.innerHTML += `
           <tr>
-            <td>${a.child_name}</td>
-            <td>${new Date(a.dob).toLocaleDateString()}</td>
-            <td>${a.gender}</td>
-            <td>${a.parent_name}</td>
+            <td>${a.studentName || "-"}</td>
+            <td>${a.dob ? new Date(a.dob).toLocaleDateString() : "-"}</td>
+            <td>${a.gender || "-"}</td>
+            <td>${a.parentName || "-"}</td>
             <td>${a.email || "-"}</td>
-            <td>${a.phone}</td>
-            <td>${a.address}</td>
+            <td>${a.phone || "-"}</td>
+            <td>${a.address || "-"}</td>
             <td>${a.message || "-"}</td>
             <td>${new Date(a.createdAt).toLocaleString()}</td>
           </tr>`;
