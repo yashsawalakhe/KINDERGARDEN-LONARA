@@ -4,10 +4,8 @@
   <meta charset="UTF-8" />
   <title>Admission Form - Kindergarten</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="responsive.css">
 
   <style>
-    /* Keep all your original styles intact */
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
     body { background: linear-gradient(to bottom right, #fff0f5, #e0f7fa); display:flex; flex-direction:column; min-height:100vh; }
     header { background: linear-gradient(to right, #8f00ff, #ffce00); padding:10px 20px; color:white; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
@@ -52,11 +50,9 @@
   <form id="admissionForm">
     <label for="child-name">Child's Full Name:</label>
     <input type="text" id="child-name" name="studentName" required />
-    <div id="childNameError" class="error">⚠️ Please enter at least 3 characters.</div>
 
     <label for="dob">Date of Birth:</label>
     <input type="date" id="dob" name="dob" required />
-    <div id="dobError" class="error">⚠️ Please select a valid past date.</div>
 
     <label for="gender">Gender:</label>
     <select id="gender" name="gender" required>
@@ -65,22 +61,6 @@
       <option value="Girl">Girl</option>
       <option value="Other">Other</option>
     </select>
-    <div id="genderError" class="error">⚠️ Please select a gender.</div>
-
-    <label for="parent-name">Parent/Guardian Name:</label>
-    <input type="text" id="parent-name" name="parentName" required />
-    <div id="parentNameError" class="error">⚠️ Please enter at least 3 characters.</div>
-
-    <label for="email">Parent's Email:</label>
-    <input type="email" id="email" name="email" required />
-    <div id="emailError" class="error">⚠️ Please enter a valid email address.</div>
-
-    <label for="phone">Phone Number:</label>
-    <input type="tel" id="phone" name="phone" required />
-    <div id="phoneError" class="error">⚠️ Please enter a valid 10-digit phone number.</div>
-
-    <label for="address">Index Address:</label>
-    <textarea id="address" name="address" rows="3"></textarea>
 
     <label for="class">Class:</label>
     <select id="class" name="class" required>
@@ -89,7 +69,18 @@
       <option value="LKG">LKG</option>
       <option value="UKG">UKG</option>
     </select>
-    <div id="classError" class="error">⚠️ Please select a class.</div>
+
+    <label for="parent-name">Parent/Guardian Name:</label>
+    <input type="text" id="parent-name" name="parentName" required />
+
+    <label for="email">Parent's Email:</label>
+    <input type="email" id="email" name="email" required />
+
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" name="phone" required />
+
+    <label for="address">Address:</label>
+    <textarea id="address" name="address" rows="3"></textarea>
 
     <label for="message">Additional Message (optional):</label>
     <textarea id="message" name="message" rows="3"></textarea>
@@ -114,15 +105,10 @@ form.addEventListener("submit", async (e) => {
   const phone = document.getElementById("phone").value.trim();
   const className = document.getElementById("class").value;
 
-  let isValid = true;
-
-  if(studentName.length < 3){ isValid=false; alert("Student name too short"); }
-  if(parentName.length < 3){ isValid=false; alert("Parent name too short"); }
-  if(!email){ isValid=false; alert("Email required"); }
-  if(!phone.match(/^\d{10}$/)){ isValid=false; alert("Phone must be 10 digits"); }
-  if(!className){ isValid=false; alert("Select class"); }
-
-  if(!isValid) return;
+  if(studentName.length < 3 || parentName.length < 3 || !email || !phone.match(/^\d{10}$/) || className === ""){
+    alert("⚠️ Please fill all fields correctly.");
+    return;
+  }
 
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
@@ -133,6 +119,7 @@ form.addEventListener("submit", async (e) => {
       headers: { "Content-Type":"application/json" },
       body: JSON.stringify(data)
     });
+
     const result = await response.json();
     if(result.success){
       alert("✅ Admission form submitted successfully!");
@@ -149,3 +136,4 @@ form.addEventListener("submit", async (e) => {
 
 </body>
 </html>
+
